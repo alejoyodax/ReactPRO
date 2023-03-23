@@ -1,23 +1,27 @@
-import { click } from '@testing-library/user-event/dist/click'
 import { useState } from 'react'
 
 interface Props {
-   initialValue?: number
+   initialValue?: number;
 }
 
+interface CounterState {
+   counter: number;
+   clicks: number;
+}
+
+// DESTRUCTURAMOS LAS PROPS Y DECIMOS QUE SON DE TIPO Props --> INTERFACE
 export const CounterBy = ({ initialValue = 5 }: Props) => {
 
-   const [state, setState] = useState({
+   // EN useState definimos un tipo de estado a base de una interface
+   const [{ counter, clicks }, setState] = useState<CounterState>({
       counter: initialValue,
       clicks: 0,
    })
 
-   const { clicks, counter } = state;
-
    const handleClick = (value: number) => {
-      setState(prev => ({
-         counter: prev.counter + value,
-         clicks: prev.clicks + 1,
+      setState(({ clicks, counter }) => ({
+         counter: counter + value,
+         clicks: clicks + 1,
       }))
    }
 
